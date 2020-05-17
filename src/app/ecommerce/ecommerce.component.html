@@ -1,0 +1,326 @@
+
+
+<!-- Modal -->
+<div class="modal" id="myModalHorizontal" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true" style="position: absolute" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" 
+                   data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Add Product
+                </h4>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="modal-body">
+                
+              <form [formGroup]='addProduct' (ngSubmit)="AddProduct(addProduct)">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Product Name</label>
+                            <input type="text" class="form-control"  formControlName="name" name='name' placeholder="Product Name" value="">
+
+                            
+            <div *ngIf="addProduct.controls['name'].touched && !addProduct.controls['name'].valid">
+                <span *ngIf="addProduct.controls['name'].hasError('required') ">
+                    Name is required
+                    </span>
+            </div>
+     </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Price</label>
+                            <input type="text" class="form-control" placeholder="Price" value="" formControlName='price'>
+                            <div *ngIf="addProduct.controls['price'].touched && !addProduct.controls['price'].valid">
+                                    <span *ngIf="addProduct.controls['price'].hasError('required') ">
+                                        price is needed
+                                         </span>
+                                      
+                                </div>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Description
+
+                            </label>
+  
+                            <textarea class="form-control" placeholder="Description" value="" formControlName='description'></textarea>
+                            <div *ngIf="addProduct.controls['description'].touched && !addProduct.controls['description'].valid">
+                                    <span *ngIf="addProduct.controls['description'].hasError('required') ">
+                                        Description is required
+                                        </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="name">Size</label>
+                            
+                           <angular2-multiselect [data]="sizeList" [(ngModel)]="selectedSize" 
+                                                  [settings]="settingSize" 
+                                                  (onSelect)="onSizeSelect($event)"
+                                                  (onDeSelect)="OnSizeDeSelect($event)" 
+                                                  (onSelectAll)="onSizeSelectAll($event)" 
+                                                  (onDeSelectAll)="onSizeDeSelectAll($event)" formControlName="size">
+                            </angular2-multiselect>
+                            <div *ngIf="addProduct.controls['size'].touched && !addProduct.controls['size'].valid">
+                                <span *ngIf="addProduct.controls['size'].hasError('required') ">
+                                    Size is required
+                                    </span>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                         <div class="form-group">
+                            <label for="name">Color</label>
+                           
+                           <angular2-multiselect [data]="colorList" [(ngModel)]="selectedColor" 
+                                                  [settings]="settingColor" 
+                                                  (onColorSelect)="onColorSelect($event)"
+                                                  (OnColorDeSelect)="OnColorDeSelect($event)" 
+                                                  (onColorSelectAll)="onColorSelectAll($event)" 
+                                                  (onColorDeSelectAll)="onColorDeSelectAll($event)" formControlName="color">
+                            </angular2-multiselect>
+                            <div *ngIf="addProduct.controls['color'].touched && !addProduct.controls['color'].valid">
+                                <span *ngIf="addProduct.controls['color'].hasError('required') ">
+                                    Color is required
+                                    </span>
+                        </div>
+                        </div>
+                    </div>
+                   
+
+                </div>  
+                <input type="Submit" value="Save" [disabled]='!addProduct.valid' class="btn btn-info btn-fill pull-right">
+                <div class="clearfix"></div>
+            </form>
+                
+                
+                
+                
+                
+                
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                            Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal" id="myModalHorizontalEdit" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true" style="position: absolute" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" 
+                   data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Edit Product
+                </h4>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="modal-body" *ngIf="loaded == true">
+                
+              <form [formGroup]='editProduct' (ngSubmit)="UpdateProduct(editProduct)">
+
+                <input type="hidden" formControlName="id" name='id'> 
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Product Name</label>
+                            <input type="text" class="form-control"  formControlName="name" name='name' value="" placeholder="Product Name">
+
+                            
+            <div *ngIf="editProduct.controls['name'].touched && !editProduct.controls['name'].valid">
+                <span *ngIf="editProduct.controls['name'].hasError('required') ">
+                    Name is required
+                    </span>
+            </div>
+     </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Price</label>
+                            <input type="text" class="form-control" placeholder="Price" value="" formControlName='price'>
+                            <div *ngIf="editProduct.controls['price'].touched && !editProduct.controls['price'].valid">
+                                    <span *ngIf="editProduct.controls['price'].hasError('required') ">
+                                        price is needed
+                                         </span>
+                                      
+                                </div>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Description
+
+                            </label>
+  
+                            <textarea class="form-control" placeholder="Description" value="" formControlName='description'></textarea>
+                            <div *ngIf="editProduct.controls['description'].touched && !editProduct.controls['description'].valid">
+                                    <span *ngIf="editProduct.controls['description'].hasError('required') ">
+                                        Description is required
+                                        </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="name">Size</label>
+                            
+                           <angular2-multiselect [data]="sizeList" [(ngModel)]="selectedsavedSize" 
+                                                  [settings]="settingSize" 
+                                                  (onSelect)="onSizeSelect($event)"
+                                                  (onDeSelect)="OnSizeDeSelect($event)" 
+                                                  (onSelectAll)="onSizeSelectAll($event)" 
+                                                  (onDeSelectAll)="onSizeDeSelectAll($event)" formControlName="size">
+                            </angular2-multiselect>
+                        <div *ngIf="editProduct.controls['size'].touched && !editProduct.controls['size'].valid">
+                                <span *ngIf="editProduct.controls['size'].hasError('required') ">
+                                    Size is required
+                                    </span>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                         <div class="form-group">
+                            <label for="name">Color</label>
+                           
+                           <angular2-multiselect [data]="colorList" [(ngModel)]="selectedsavedColor" 
+                                                  [settings]="settingColor" 
+                                                  (onColorSelect)="onColorSelect($event)"
+                                                  (OnColorDeSelect)="OnColorDeSelect($event)" 
+                                                  (onColorSelectAll)="onColorSelectAll($event)" 
+                                                  (onColorDeSelectAll)="onColorDeSelectAll($event)" formControlName="color">
+                            </angular2-multiselect>
+                            <div *ngIf="editProduct.controls['color'].touched && !editProduct.controls['color'].valid">
+                                <span *ngIf="editProduct.controls['color'].hasError('required') ">
+                                    Size is required
+                                    </span>
+                        </div>
+                        </div>
+                    </div>
+                   
+
+                </div>  
+                <input type="Submit" value="Update" class="btn btn-info btn-fill pull-right">
+                <div class="clearfix"></div>
+            </form>
+                
+                
+                
+                
+                
+                
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                            Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="header">
+                      <h4 class="title">Product List</h4>
+                      <button class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#myModalHorizontal">
+                        Add Product
+                    </button>
+                  </div>
+                  <div class="content table-responsive table-full-width">
+                      <table datatable class="row-border hover">
+                          <thead>
+                            <tr>
+                              <th>S.NO</th>
+                              <td>Product</td>
+                              <td>Description</td>
+                              <td>Price</td>
+                              <td>Color</td>
+                              <td>Size</td>
+                              <td>Edit</td>
+                              <td>Delete</td>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let product of Products; let i = index">
+                              <td>{{i+1}}</td>
+                              <td>{{product.productId.name}}</td>
+                              <td>{{product.productId.description}}</td>
+                              <td>{{product.productId.price}}</td>
+                              <td><ul>
+                                <li *ngFor="let sizes of product.size;">
+                                    {{sizes.itemName}}
+                                </li>
+                              </ul></td>
+                              <td><ul>
+                                <li *ngFor="let color of product.color;">
+                                    {{color.itemName}}
+                                </li>
+                              </ul></td>
+
+                                
+                              
+                             
+                              <td><a (click) = "viewProduct(product.productId._id)" class="btn btn-success">Edit</a></td>
+                              <td><a (click) = "deleteProduct(product.productId._id)" class="btn btn-danger">Delete</a></td>
+                              
+                            </tr>
+                          </tbody>
+                        </table>
+
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
