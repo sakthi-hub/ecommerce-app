@@ -34,6 +34,7 @@ export class EcommerceComponent implements OnInit {
   description: string= "";
   size: any="";
   color: any="";
+  varient: any="";
   id: string = "";
   loaded: boolean = false;
 
